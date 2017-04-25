@@ -35,21 +35,29 @@ public class BottleXP implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if(src instanceof Player) {
         	Player player = (Player) src;
-        	int totalEXP = player.get(Keys.TOTAL_EXPERIENCE).orElseGet(() -> 0);
-        	if(totalEXP >= 11) {
-        		double bottlesNeeded = Math.ceil(totalEXP / 11);
-        		createBottles(bottlesNeeded, player);
-        		player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your EXP for §2" +  bottlesNeeded + "§a bottles!"));
-        		player.offer(Keys.TOTAL_EXPERIENCE, 0);
-        	} else {
-        		player.sendMessage(Text.of("§f[§cxP//§f] §cYou need at least 11 XP to convert to bottles!"));
-        	}
-            return CommandResult.success();
-        } else {
-        	src.sendMessage(Text.of("[xP//] You need to be a player to run this command!"));
-            return CommandResult.success();
+        	if(player.gameMode().get() == GameModes.SURVIVAL) {
+	        	int totalEXP = player.get(Keys.TOTAL_EXPERIENCE).orElseGet(() -> 0);
+	        	if(totalEXP >= 11) {
+	        		double bottlesNeeded = Math.ceil(totalEXP / 11);
+	        		createBottles(bottlesNeeded, player);
+	        		if(bottlesNeeded == 1) {
+		        		player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your EXP for §2" +  (int)bottlesNeeded + "§a bottle!"));
+	        		} else player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your EXP for §2" +  (int)bottlesNeeded + "§a bottles!"));
+	        		player.offer(Keys.TOTAL_EXPERIENCE, 0);
+	        	} else {
+	        		player.sendMessage(Text.of("§f[§cxP//§f] §cYou need at least 11 XP to convert to bottles!"));
+	        	}
+	            return CommandResult.success();
+	        } else {
+        		player.sendMessage(Text.of("§f[§cxP//§f] §cYou need to be in Survival mode to use this!"));
+	            return CommandResult.success();
         }
-    }
+        }
+        else {
+	        	src.sendMessage(Text.of("[xP//] You need to be a player to run this command!"));
+	            return CommandResult.success();
+	        }
+        }
 	
 	public void createBottles(double amount, Player player) {
 		double stacks = 0;
