@@ -12,7 +12,7 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 
-@Plugin(id = "xPBottles", name = "xP// Bottles", version = "0.1")
+@Plugin(id = "xpbottles", name = "xP// Bottles", version = "0.1")
 public class Main {
 	private Logger logger;
 	
