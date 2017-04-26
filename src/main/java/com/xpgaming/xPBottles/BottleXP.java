@@ -1,8 +1,11 @@
 package com.xpgaming.xPBottles;
 
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -30,6 +33,10 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.extent.Extent;
 
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
+
 public class BottleXP implements CommandExecutor {
 
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -37,15 +44,17 @@ public class BottleXP implements CommandExecutor {
         	Player player = (Player) src;
         	if(player.gameMode().get() == GameModes.SURVIVAL) {
 	        	int totalEXP = player.get(Keys.TOTAL_EXPERIENCE).orElseGet(() -> 0);
-	        	if(totalEXP >= 11) {
+	        	int currentLevel = player.get(Keys.EXPERIENCE_LEVEL).orElseGet(() -> 0);
+	        	int minLevels = Config.getInstance().getConfig().getNode("bottles", "min_level").getInt();
+	        	if(currentLevel >= minLevels) {
 	        		double bottlesNeeded = Math.ceil(totalEXP / 11);
 	        		createBottles(bottlesNeeded, player);
 	        		if(bottlesNeeded == 1) {
-		        		player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your EXP for §2" +  (int)bottlesNeeded + "§a bottle!"));
-	        		} else player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your EXP for §2" +  (int)bottlesNeeded + "§a bottles!"));
+		        		player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your XP for §2" +  (int)bottlesNeeded + "§a bottle!"));
+	        		} else player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your XP for §2" +  (int)bottlesNeeded + "§a bottles!"));
 	        		player.offer(Keys.TOTAL_EXPERIENCE, 0);
 	        	} else {
-	        		player.sendMessage(Text.of("§f[§cxP//§f] §cYou need at least 11 XP to convert to bottles!"));
+	        		player.sendMessage(Text.of("§f[§cxP//§f] §cYou need at least " + minLevels + " levels to convert to bottles!"));
 	        	}
 	            return CommandResult.success();
 	        } else {

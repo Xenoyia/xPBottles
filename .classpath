@@ -27,5 +27,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Lukas X. Valentine/Downloads/forge-1.10.2-12.18.3.2281-universal.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lukas X. Valentine/Downloads/server.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
