@@ -22,7 +22,8 @@ private static Config instance = new Config();
 			configFile.createNewFile();
 			configLoad();
 			CommentedConfigurationNode bottles = config.getNode("bottles").setComment("xP// Bottles coded by Xenoyia! Check out mc.xpgaming.com!");
-			bottles.getNode("min_level").setComment("Do not set this to lower than 2, it's hardcoded to not give half a bottle.").setValue("30");			
+			bottles.getNode("min_level").setComment("Do not set this to lower than 2, it's hardcoded to not give half a bottle.").setValue("30");	
+			bottles.getNode("prefix").setComment("[Prefix] goes before the messages, its default is 'Bottles'.").setValue("Bottles");			
 			configSave();
 		} catch (IOException e) {
 			e.printStackTrace();

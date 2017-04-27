@@ -40,9 +40,10 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 public class Bottle implements CommandExecutor {
 	
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+    	String prefix = Config.getInstance().getConfig().getNode("bottles", "prefix").getString();
 		if(src instanceof Player) {
         	Player player = (Player) src;
-        	player.sendMessage(Text.of("§f[§bxP//§f] §b§l-- COMMANDS --"));
+        	player.sendMessage(Text.of("§f[§b"+prefix+"§f] §b§l-- COMMANDS --"));
         	if(player.hasPermission("xpgaming.bottles.use")) {
         		player.sendMessage(Text.of("  §7> §b/bottle confirm §7- Convert your XP into bottles!"));
         	}
@@ -50,7 +51,7 @@ public class Bottle implements CommandExecutor {
         		player.sendMessage(Text.of("  §7> §b/bottle reload §7- Reload plugin configuration!"));
         	}
 		} else {
-        	src.sendMessage(Text.of("§f[§bxP//§f] §b§l-- COMMANDS --"));
+        	src.sendMessage(Text.of("§f[§b"+prefix+"§f] §b§l-- COMMANDS --"));
     		src.sendMessage(Text.of("  §7> §b/bottle confirm §7- Convert your XP into bottles!"));
     		src.sendMessage(Text.of("  §7> §b/bottle reload §7- Reload plugin configuration!"));
 		}

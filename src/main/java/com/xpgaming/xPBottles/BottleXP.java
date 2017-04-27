@@ -1,6 +1,7 @@
 package com.xpgaming.xPBottles;
 
 import java.net.URL;
+import net.minecraft.server.MinecraftServer;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Optional;
@@ -40,6 +41,7 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 public class BottleXP implements CommandExecutor {
 
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+    	String prefix = Config.getInstance().getConfig().getNode("bottles", "prefix").getString();
         if(src instanceof Player) {
         	Player player = (Player) src;
         	if(player.gameMode().get() == GameModes.SURVIVAL) {
@@ -50,20 +52,20 @@ public class BottleXP implements CommandExecutor {
 	        		double bottlesNeeded = Math.ceil(totalEXP / 11);
 	        		createBottles(bottlesNeeded, player);
 	        		if(bottlesNeeded == 1) {
-		        		player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your XP for §2" +  (int)bottlesNeeded + "§a bottle!"));
-	        		} else player.sendMessage(Text.of("§f[§axP//§f] §aSuccessfully exchanged your XP for §2" +  (int)bottlesNeeded + "§a bottles!"));
+		        		player.sendMessage(Text.of("§f[§a"+prefix+"§f] §aSuccessfully exchanged your XP for §2" +  (int)bottlesNeeded + "§a bottle!"));
+	        		} else player.sendMessage(Text.of("§f[§a"+prefix+"§f] §aSuccessfully exchanged your XP for §2" +  (int)bottlesNeeded + "§a bottles!"));
 	        		player.offer(Keys.TOTAL_EXPERIENCE, 0);
 	        	} else {
-	        		player.sendMessage(Text.of("§f[§cxP//§f] §cYou need at least " + minLevels + " levels to convert to bottles!"));
+	        		player.sendMessage(Text.of("§f[§c"+prefix+"§f] §cYou need at least " + minLevels + " levels to convert to bottles!"));
 	        	}
 	            return CommandResult.success();
 	        } else {
-        		player.sendMessage(Text.of("§f[§cxP//§f] §cYou need to be in Survival mode to use this!"));
+        		player.sendMessage(Text.of("§f[§c"+prefix+"§f] §cYou need to be in Survival mode to use this!"));
 	            return CommandResult.success();
         }
         }
         else {
-	        	src.sendMessage(Text.of("[xP//] You need to be a player to run this command!"));
+	        	src.sendMessage(Text.of("["+prefix+"] You need to be a player to run this command!"));
 	            return CommandResult.success();
 	        }
         }

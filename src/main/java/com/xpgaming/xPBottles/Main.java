@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.ConfigDir;
@@ -21,8 +23,11 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "xpbottles", name = "xP// Bottles", version = "0.2")
+@Plugin(id = Main.id, name = Main.name, version = "0.3")
 public class Main {
+	public static final String id = "xpbottles";
+	public static final String name = "xP// Bottles";
+	private static final Logger log = LoggerFactory.getLogger(name);
 
 	CommandSpec confirm = CommandSpec.builder()
 			.description(Text.of("Bottle 30 levels of XP!"))
@@ -55,17 +60,13 @@ public class Main {
 	@Listener
 	public void onGameInitialization(GameInitializationEvent event) {
 		Config.getInstance().setup(configFile, configLoader);
+		log.info("Loaded v0.3!");
 	}
 	
 	@Listener
 	public void onPreInitializationEvent(GameInitializationEvent event) {
 		Sponge.getCommandManager().register(this, bottle, "bottle", "xpbottle", "bottlexp", "xptobottle", "bxp");
 	}
-	
-	@Listener
-    public void onServerStart(GameStartedServerEvent event) {
-		System.out.println("[xP// Bottles] Loaded v0.2!");
-    }
 	
 	
 }

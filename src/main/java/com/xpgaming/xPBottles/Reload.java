@@ -40,11 +40,12 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 public class Reload implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		Config.getInstance().configLoad();
+    	String prefix = Config.getInstance().getConfig().getNode("bottles", "prefix").getString();
 		if(src instanceof Player) {
         	Player player = (Player) src;
-        	player.sendMessage(Text.of("§f[§bxP//§f] §bSuccessfully reloaded xP// Bottles!"));
+        	player.sendMessage(Text.of("§f[§b"+prefix+"§f] §bSuccessfully reloaded xP// Bottles!"));
 		} else {
-			src.sendMessage(Text.of("§f[§bxP//§f] §bSuccessfully reloaded xP// Bottles!"));
+			src.sendMessage(Text.of("§f[§b"+prefix+"§f] §bSuccessfully reloaded xP// Bottles!"));
 		}
 		return CommandResult.success();
 	}
